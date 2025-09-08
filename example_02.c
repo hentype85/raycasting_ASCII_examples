@@ -4,7 +4,8 @@
 
 #define WIDTH  10
 #define HEIGHT 10
-#define FOV (M_PI/3)    // 60 grados
+#define FOV M_PI/ 3    // campo de vision (60 grados)
+#define NUM_RAYS (WIDTH * 2)    // cantidad de rayos
 
 int map[HEIGHT][WIDTH] = {
     {1,1,1,1,1,1,1,1,1,1},
@@ -18,6 +19,7 @@ int map[HEIGHT][WIDTH] = {
     {1,0,0,0,0,0,0,0,0,1},
     {1,1,1,1,1,1,1,1,1,1}
 };
+
 
 float px = WIDTH/2, py = HEIGHT/2; // posicion del jugador
 float ray_x = 0, ray_y = 0; // posicion del rayo
@@ -35,27 +37,29 @@ int main() {
             for(int j= 0; j < WIDTH; j++)
                 screen[i][j] = (map[i][j]==1) ? '#' : ' ';
 
-        // lanzar rayo
-        ray_x = px;
-        ray_y = py;
-        ray_angle = pangle;
+        // lanzar varios rayos para FOV
+        for(int r= 0; r < NUM_RAYS; r++) {
+            ray_angle = pangle - FOV/2 + FOV * r / (NUM_RAYS-1);
+            ray_x = px, ray_y = py;
 
-        while(1) {
-            ray_x += cos(ray_angle) * ray_step;
-            ray_y += sin(ray_angle) * ray_step;
+            while(1) {
+                ray_x += cos(ray_angle) * ray_step;
+                ray_y += sin(ray_angle) * ray_step;
 
-            cellx = (int)ray_x;
-            celly = (int)ray_y;
-            
-            if(cellx<0 || cellx>=WIDTH || celly<0 || celly>=HEIGHT)
-                break;
-            if(map[celly][cellx]==1)
-                break;
-            
-            screen[celly][cellx] = '*'; // dibujar rayo
+                cellx = (int)ray_x;
+                celly = (int)ray_y;
+
+                if(cellx<0 || cellx>=WIDTH || celly<0 || celly>=HEIGHT)
+                    break;
+
+                if(map[celly][cellx]==1)
+                    break;
+
+                screen[celly][cellx] = '*'; // dibujar el rayo
+            }
         }
 
-        // colocar jugador
+        // dibujar jugador
         screen[(int)py][(int)px] = 'P';
 
         // dibujar mapa
