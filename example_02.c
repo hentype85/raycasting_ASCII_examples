@@ -24,7 +24,6 @@ int map[HEIGHT][WIDTH] = {
 float px = WIDTH/2, py = HEIGHT/2; // posicion del jugador
 float ray_x = 0, ray_y = 0; // posicion del rayo
 float pangle = 0.0, ray_angle = 0.0 ; // angulo del jugador y del rayo
-float ray_step = 0.1; // paso de cada rayo
 int cellx = 0, celly = 0; // celda actual del rayo
 
 int main() {
@@ -43,8 +42,8 @@ int main() {
             ray_x = px, ray_y = py;
 
             while(1) {
-                ray_x += cos(ray_angle) * ray_step;
-                ray_y += sin(ray_angle) * ray_step;
+                ray_x += cos(ray_angle);
+                ray_y += sin(ray_angle);
 
                 cellx = (int)ray_x;
                 celly = (int)ray_y;
