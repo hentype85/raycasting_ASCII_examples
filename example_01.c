@@ -2,9 +2,10 @@
 #include <math.h>
 #include <unistd.h>
 
-#define WIDTH  10
-#define HEIGHT 10
+#define WIDTH  10       // ancho del mapa
+#define HEIGHT 10       // alto del mapa
 #define FOV (M_PI/3)    // 60 grados
+
 
 int map[HEIGHT][WIDTH] = {
     {1,1,1,1,1,1,1,1,1,1},
@@ -21,7 +22,7 @@ int map[HEIGHT][WIDTH] = {
 
 float px = WIDTH/2, py = HEIGHT/2; // posicion del jugador
 float ray_x = 0, ray_y = 0; // posicion del rayo
-float pangle = 0.0, ray_angle = 0.0 ; // angulo del jugador y del rayo
+float p_angle = 0.0, ray_angle = 0.0 ; // angulo del jugador y del rayo
 int cellx = 0, celly = 0; // celda actual del rayo
 
 int main() {
@@ -37,7 +38,7 @@ int main() {
         // lanzar rayo
         ray_x = px;
         ray_y = py;
-        ray_angle = pangle;
+        ray_angle = p_angle;
 
         while(1) {
             ray_x += cos(ray_angle);
@@ -45,12 +46,13 @@ int main() {
 
             cellx = (int)ray_x;
             celly = (int)ray_y;
-            
+
             if(cellx<0 || cellx>=WIDTH || celly<0 || celly>=HEIGHT)
-                break;
+                break; // fuera de los limites del mapa
+
             if(map[celly][cellx]==1)
-                break;
-            
+                break; // colision con pared
+
             screen[celly][cellx] = '*'; // dibujar rayo
         }
 
@@ -65,8 +67,10 @@ int main() {
         }
 
         // girar jugador
-        pangle += 0.1;
-        if(pangle>2*M_PI) pangle -= 2*M_PI;
+        p_angle += 0.1;
+        if(p_angle>2*M_PI){
+            p_angle -= 2*M_PI;
+        }
 
         usleep(200000); // pausa del bucle
     }

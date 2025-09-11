@@ -5,6 +5,7 @@
 #define WIDTH  10
 #define HEIGHT 10
 
+
 int map[HEIGHT][WIDTH] = {
     {1,1,1,1,1,1,1,1,1,1},
     {1,0,0,0,0,0,0,0,0,1},
