@@ -2,27 +2,27 @@
 #include <math.h>
 #include <unistd.h>
 
-#define WIDTH  10               // ancho del mapa
+#define WIDTH  20               // ancho del mapa
 #define HEIGHT 10               // alto del mapa
 #define FOV (M_PI/ 3)           // campo de vision (60 grados)
 #define NUM_RAYS (WIDTH * 2)    // cantidad de rayos
 
 
 int map[HEIGHT][WIDTH] = {
-    {1,1,1,1,1,1,1,1,1,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,1,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,1,1,1,1,1,1,1,1,1}
+    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
 
-float px = WIDTH/2.0, py = HEIGHT/2.0; // posicion del jugador
+float px = 10, py = 4; // posicion del jugador
 float ray_x = 0, ray_y = 0; // posicion del rayo
 float p_angle = 0.0, ray_angle = 0.0 ; // angulo del jugador y del rayo
 int cellx = 0, celly = 0; // celda actual del 
@@ -33,6 +33,11 @@ char screen[HEIGHT][WIDTH]; // pantalla (viewport) del tamano del mapa
 int main() {
     while(1) {
         printf("\033[H\033[J"); // limpiar pantalla
+
+        // dibujar mapa base
+        for(int i= 0; i < HEIGHT; i++) 
+            for(int j= 0; j < WIDTH; j++)
+                screen[i][j] = (map[i][j]==1) ? '#' : ' ';
 
         // lanzar varios rayos para FOV
         for(int r= 0; r < NUM_RAYS; r++) {
@@ -64,7 +69,7 @@ int main() {
             wall_height = (int)(HEIGHT / (dist + 0.0001));
 
             // dibujar columnas de la pared en la pantalla
-            for(int i = 0; i <  HEIGHT; i++) {
+            for(int i = 0; i < HEIGHT; i++) {
                 if (i < HEIGHT/2 - wall_height/2){
                     screen[i][r/2] = ' '; // techo
                 } else if (i >= HEIGHT/2 - wall_height/2 && i <= HEIGHT/2 + wall_height/2) { // si i esta entre el techo y el suelo entonces dibujar pared
@@ -83,11 +88,11 @@ int main() {
         }
 
         // girar jugador
-        p_angle += 0.1;
+        p_angle += 0.1; // velocidad de giro
         if(p_angle>2*M_PI){
             p_angle -= 2*M_PI;
         }
-
+        
         usleep(200000); // pausa del bucle
     }
 
