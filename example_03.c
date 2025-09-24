@@ -54,6 +54,8 @@ int main() {
                         (ray_x - px) = cateto adyacente
                         (ray_y - py) = cateto opuesto
                         dist = sqrt( adyacente^2 + opuesto^2 )
+
+                        sqrt() obtiene la hipotenusa real (distancia)
                     */
                     dist = sqrt((ray_x - px) * (ray_x - px) + (ray_y - py) * (ray_y - py));
                     break; // salir del bucle si choca con un muro
