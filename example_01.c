@@ -20,6 +20,7 @@ int map[HEIGHT][WIDTH] = {
     {1,1,1,1,1,1,1,1,1,1}
 };
 
+
 float px = WIDTH/2, py = HEIGHT/2; // posicion del jugador
 float ray_x = 0, ray_y = 0; // posicion del rayo
 float p_angle = 0.0, ray_angle = 0.0 ; // angulo del jugador y del rayo

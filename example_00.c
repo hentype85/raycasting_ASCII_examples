@@ -19,6 +19,7 @@ int map[HEIGHT][WIDTH] = {
     {1,1,1,1,1,1,1,1,1,1}
 };
 
+
 float px = WIDTH/2, py = HEIGHT/2; // posicion del jugador
 float pangle = 0.0; // angulo inicial
 float dir_x = 0, dir_y = 0, dir_spd = 0.006; // direccion del rayo y velocidad
